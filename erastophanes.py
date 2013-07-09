@@ -5,15 +5,18 @@ import time
 class erastophanes:
 	# Initialize the sieve
 	def __init__(self,ceiling):
+		# List for discovered primes
 		self.plist                 = []
+		# Map of integer range to sieve
 		self.pmap                  = [True] * ceiling
 		# Mark 0 and 1 not prime
 		self.pmap[0], self.pmap[1] = False, False
+		# Start with a floor of 0
 		self.floor                 = 0
 		# Sieve for primes and append them to the prime list
 		for i in self.sieve(ceiling):
 			self.plist.append(i)
-		# Update the ceiling
+		# Update the floor
 		self.floor = ceiling
 	# Sieve the pmap, using an enumeration starting from self.floor
 	# 1,1 if the floor is 1, 100,100 if the floor is 100, etc 
@@ -36,21 +39,24 @@ class erastophanes:
 						# Pass this iteration if k is less than self.floor
 						pass
 					else:
+						# Mark the pmap index not prime
 						self.pmap[(i*j)-self.floor] = False
 					j = j + 1
 		# Sieve for primes and append them to the prime list
 		for i in self.sieve(ceiling):
 			self.plist.append(i)
-		# Update the ceiling
+		# Update the floor
 		self.floor = ceiling
 	
 if __name__ == '__main__':
+	# Start the timer
 	startTime = time.time()
+	# Initialize the sieve with a ceiling of 1000000
 	test = erastophanes(1000000)
 	i = sum(test.plist)
 	thisTime = time.time() - startTime
 	print("The primes under 1000000 sum to {sum}, time elapsed is {time}".format(sum=i,time=thisTime))
-	for i in range(2000000,2010000000,1000000):
+	for i in range(2000000,2001000000,1000000):
 		test.expand(i)
 		j = sum(test.plist)
 		thisTime = time.time() - startTime
